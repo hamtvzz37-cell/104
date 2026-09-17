@@ -1,0 +1,1518 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cặp Đôi Cùng Tiến</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #05080c;
+    color: white;
+}
+
+header {
+    background: linear-gradient(135deg, #071018, #102c3d);
+    padding: 22px;
+    text-align: center;
+    border-bottom: 2px solid #66d9ff;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+header h1 {
+    margin: 0;
+    color: #8be3ff;
+    font-size: 30px;
+}
+
+header p {
+    margin: 7px 0 0;
+    color: #b7dbea;
+}
+
+.container {
+    max-width: 1400px;
+    margin: auto;
+    padding: 20px;
+}
+
+.toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    background: #0b1117;
+    padding: 15px;
+    border-radius: 15px;
+    margin-bottom: 20px;
+    border: 1px solid #244555;
+}
+
+button,
+select,
+input,
+textarea {
+    font-family: inherit;
+}
+
+button {
+    border: none;
+    border-radius: 9px;
+    padding: 10px 15px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.btn-blue {
+    background: #62d7ff;
+    color: #001018;
+}
+
+.btn-green {
+    background: #36d98b;
+    color: #00140c;
+}
+
+.btn-red {
+    background: #ff5d6c;
+    color: white;
+}
+
+.btn-gray {
+    background: #293640;
+    color: white;
+}
+
+button:hover {
+    filter: brightness(1.15);
+}
+
+.pairs {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
+    gap: 18px;
+}
+
+.pair {
+    background: #0b1117;
+    border-radius: 17px;
+    overflow: hidden;
+    border: 2px solid var(--pair-color);
+    box-shadow: 0 0 18px rgba(80,200,255,.08);
+}
+
+.pair-header {
+    padding: 15px;
+    background: var(--pair-color);
+    color: #001018;
+}
+
+.pair-header h2 {
+    margin: 0;
+    font-size: 20px;
+}
+
+.pair-body {
+    padding: 15px;
+}
+
+.students {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.student {
+    background: #111a21;
+    padding: 12px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.student-name {
+    font-weight: bold;
+    color: #aeeaff;
+    margin-bottom: 5px;
+}
+
+.student-score {
+    font-size: 25px;
+    color: #6fe0ff;
+    font-weight: bold;
+}
+
+.total {
+    margin-top: 12px;
+    padding: 12px;
+    background: #07141c;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.total strong {
+    color: #73e2ff;
+    font-size: 23px;
+}
+
+.controls {
+    margin-top: 15px;
+}
+
+.controls-title {
+    color: #9ed9ee;
+    margin-bottom: 7px;
+    font-weight: bold;
+}
+
+.score-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+}
+
+.score-buttons button {
+    flex: 1;
+    min-width: 60px;
+}
+
+.plus {
+    background: #35d98a;
+    color: #00140c;
+}
+
+.minus {
+    background: #ff5969;
+    color: white;
+}
+
+.field {
+    margin-top: 12px;
+}
+
+.field label {
+    display: block;
+    color: #9ed9ee;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.field input,
+.field select,
+.field textarea {
+    width: 100%;
+    padding: 9px;
+    border-radius: 8px;
+    border: 1px solid #355365;
+    background: #101a22;
+    color: white;
+}
+
+.field textarea {
+    min-height: 70px;
+    resize: vertical;
+}
+
+.task-list {
+    margin-top: 8px;
+}
+
+.task {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 6px;
+}
+
+.task input {
+    flex: 1;
+}
+
+.summary {
+    background: #09141c;
+    padding: 18px;
+    margin-bottom: 20px;
+    border-radius: 15px;
+    border: 1px solid #244555;
+}
+
+.summary-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 12px;
+}
+
+.summary-box {
+    background: #101d26;
+    padding: 15px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.summary-box span {
+    display: block;
+    color: #9ac8da;
+    margin-bottom: 5px;
+}
+
+.summary-box strong {
+    font-size: 25px;
+    color: #6fe0ff;
+}
+
+.empty {
+    padding: 30px;
+    text-align: center;
+    color: #9bb5c2;
+}
+
+.student-picker {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    gap: 8px;
+    max-height: 350px;
+    overflow-y: auto;
+    margin-top: 10px;
+}
+
+.student-option {
+    padding: 10px;
+    border: 1px solid #315263;
+    border-radius: 8px;
+    background: #0d171e;
+    cursor: pointer;
+}
+
+.student-option.selected {
+    background: #16445a;
+    border-color: #6bdfff;
+}
+
+.student-option input {
+    margin-right: 8px;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.8);
+    z-index: 100;
+    align-items: center;
+    justify-content: center;
+    padding: 15px;
+}
+
+.modal-box {
+    width: min(800px, 100%);
+    max-height: 90vh;
+    overflow-y: auto;
+    background: #0a1117;
+    border: 1px solid #4d8da7;
+    border-radius: 15px;
+    padding: 20px;
+}
+
+.modal-box h2 {
+    color: #7de2ff;
+}
+
+.modal-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+@media(max-width:600px) {
+    header h1 {
+        font-size: 23px;
+    }
+
+    .students {
+        grid-template-columns: 1fr;
+    }
+
+    .pairs {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>👥 CẶP ĐÔI CÙNG TIẾN</h1>
+    <p>Quản lý điểm thi đua và nhiệm vụ của các cặp học sinh</p>
+</header>
+
+<div class="container">
+
+    <div class="toolbar">
+        <button class="btn-blue" onclick="openPairModal()">
+            ➕ Tạo cặp mới
+        </button>
+
+        <button class="btn-green" onclick="backupData()">
+            💾 Sao lưu
+        </button>
+
+        <button class="btn-gray" onclick="document.getElementById('restoreFile').click()">
+            📂 Khôi phục
+        </button>
+
+        <input
+            type="file"
+            id="restoreFile"
+            accept=".json"
+            style="display:none"
+            onchange="restoreData(event)"
+        >
+
+        <button class="btn-red" onclick="resetAll()">
+            🗑️ Xóa toàn bộ
+        </button>
+    </div>
+
+    <div class="summary">
+        <h2>📊 Tổng quan</h2>
+
+        <div class="summary-grid">
+            <div class="summary-box">
+                <span>Số học sinh</span>
+                <strong id="studentCount">20</strong>
+            </div>
+
+            <div class="summary-box">
+                <span>Số cặp</span>
+                <strong id="pairCount">0</strong>
+            </div>
+
+            <div class="summary-box">
+                <span>Điểm toàn lớp</span>
+                <strong id="classScore">0</strong>
+            </div>
+
+            <div class="summary-box">
+                <span>Ngày nghỉ</span>
+                <strong id="absentTotal">0</strong>
+            </div>
+        </div>
+    </div>
+
+    <div id="pairs" class="pairs"></div>
+
+</div>
+
+
+<!-- MODAL TẠO CẶP -->
+
+<div class="modal" id="pairModal">
+
+    <div class="modal-box">
+
+        <h2>🔗 Chọn 2 học sinh để tạo cặp</h2>
+
+        <p>
+            Chỉ chọn đúng <b>2 học sinh</b>.
+            Một học sinh không thể thuộc 2 cặp.
+        </p>
+
+        <div id="studentPicker" class="student-picker"></div>
+
+        <div class="modal-buttons">
+            <button class="btn-green" onclick="createPair()">
+                ✓ Tạo cặp
+            </button>
+
+            <button class="btn-gray" onclick="closePairModal()">
+                Đóng
+            </button>
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+/* =========================
+   DANH SÁCH HỌC SINH
+========================= */
+
+const students = [];
+
+for (let i = 1; i <= 20; i++) {
+    students.push({
+        id: i,
+        name: "Học sinh " + i
+    });
+}
+
+
+/* =========================
+   MÀU CHO CẶP
+========================= */
+
+const pairColors = [
+    "#62d7ff",
+    "#72f0c1",
+    "#8b9cff",
+    "#f5d76e",
+    "#ff8f70",
+    "#cf8cff",
+    "#5ee6e6",
+    "#a6e86d",
+    "#ff75ae",
+    "#70a8ff",
+    "#f59bff",
+    "#73f59a",
+    "#ffd166",
+    "#8ecae6",
+    "#90dbf4",
+    "#b8f2e6",
+    "#c77dff",
+    "#80ed99",
+    "#ff9f1c",
+    "#4cc9f0"
+];
+
+
+/* =========================
+   DỮ LIỆU
+========================= */
+
+let data = JSON.parse(localStorage.getItem("capDoiCungTien")) || {
+    pairs: []
+};
+
+let selectedStudents = [];
+
+
+/* =========================
+   LƯU DỮ LIỆU
+========================= */
+
+function saveData() {
+    localStorage.setItem(
+        "capDoiCungTien",
+        JSON.stringify(data)
+    );
+}
+
+
+/* =========================
+   MỞ MODAL
+========================= */
+
+function openPairModal() {
+
+    selectedStudents = [];
+
+    const picker =
+        document.getElementById("studentPicker");
+
+    picker.innerHTML = "";
+
+    const used = data.pairs.flatMap(
+        p => p.students
+    );
+
+    students.forEach(student => {
+
+        const div =
+            document.createElement("label");
+
+        div.className = "student-option";
+
+        if (used.includes(student.id)) {
+            div.style.opacity = "0.4";
+        }
+
+        div.innerHTML = `
+            <input
+                type="checkbox"
+                value="${student.id}"
+                ${used.includes(student.id) ? "disabled" : ""}
+                onchange="selectStudent(${student.id}, this)"
+            >
+            ${student.name}
+        `;
+
+        picker.appendChild(div);
+    });
+
+    document.getElementById("pairModal").style.display = "flex";
+}
+
+
+function closePairModal() {
+
+    document.getElementById("pairModal").style.display = "none";
+}
+
+
+/* =========================
+   CHỌN HỌC SINH
+========================= */
+
+function selectStudent(id, checkbox) {
+
+    if (checkbox.checked) {
+
+        if (selectedStudents.length >= 2) {
+            checkbox.checked = false;
+            alert("Mỗi cặp chỉ được chọn 2 học sinh!");
+            return;
+        }
+
+        selectedStudents.push(id);
+
+    } else {
+
+        selectedStudents =
+            selectedStudents.filter(x => x !== id);
+    }
+
+    checkbox.closest(".student-option")
+        .classList.toggle(
+            "selected",
+            checkbox.checked
+        );
+}
+
+
+/* =========================
+   TẠO CẶP
+========================= */
+
+function createPair() {
+
+    if (selectedStudents.length !== 2) {
+        alert("Hãy chọn đúng 2 học sinh!");
+        return;
+    }
+
+    const color =
+        getUnusedColor();
+
+    const pair = {
+
+        id: Date.now(),
+
+        students: [...selectedStudents],
+
+        name:
+            students.find(
+                s => s.id === selectedStudents[0]
+            ).name
+            + " & " +
+            students.find(
+                s => s.id === selectedStudents[1]
+            ).name,
+
+        color: color,
+
+        scores: {
+            [selectedStudents[0]]: 200,
+            [selectedStudents[1]]: 200
+        },
+
+        conduct: "Tốt",
+
+        absent: 0,
+
+        violations: "",
+
+        tasks: []
+    };
+
+    data.pairs.push(pair);
+
+    saveData();
+
+    closePairModal();
+
+    render();
+}
+
+
+/* =========================
+   LẤY MÀU KHÔNG TRÙNG
+========================= */
+
+function getUnusedColor() {
+
+    const used =
+        data.pairs.map(p => p.color);
+
+    const available =
+        pairColors.filter(
+            color => !used.includes(color)
+        );
+
+    if (available.length === 0) {
+        return "#62d7ff";
+    }
+
+    return available[
+        Math.floor(
+            Math.random() * available.length
+        )
+    ];
+}
+
+
+/* =========================
+   TÌM CẶP
+========================= */
+
+function getPair(id) {
+
+    return data.pairs.find(
+        p => p.id === id
+    );
+}
+
+
+/* =========================
+   CỘNG ĐIỂM
+========================= */
+
+/*
+    Cộng:
+    số điểm × 1.5
+    sau đó chia đều cho 2
+
+    Ví dụ +5:
+    5 × 1.5 = 7.5
+    7.5 / 2 = 3.75
+*/
+
+function addScore(pairId, amount) {
+
+    const pair = getPair(pairId);
+
+    const total = amount * 1.5;
+
+    const each = total / 2;
+
+    pair.students.forEach(id => {
+
+        pair.scores[id] += each;
+    });
+
+    saveData();
+    render();
+}
+
+
+/* =========================
+   TRỪ ĐIỂM
+========================= */
+
+function subtractScore(pairId, amount) {
+
+    const pair = getPair(pairId);
+
+    pair.students.forEach(id => {
+
+        pair.scores[id] -= amount;
+    });
+
+    saveData();
+    render();
+}
+
+
+/* =========================
+   ĐỔI TÊN NHÓM
+========================= */
+
+function renamePair(pairId) {
+
+    const pair = getPair(pairId);
+
+    const newName =
+        prompt(
+            "Nhập tên nhóm mới:",
+            pair.name
+        );
+
+    if (
+        newName &&
+        newName.trim() !== ""
+    ) {
+
+        pair.name =
+            newName.trim();
+
+        saveData();
+        render();
+    }
+}
+
+
+/* =========================
+   HẠNH KIỂM
+========================= */
+
+function changeConduct(pairId, value) {
+
+    const pair = getPair(pairId);
+
+    pair.conduct = value;
+
+    saveData();
+}
+
+
+/* =========================
+   NGÀY NGHỈ
+========================= */
+
+function changeAbsent(pairId, value) {
+
+    const pair = getPair(pairId);
+
+    pair.absent =
+        Math.max(0, Number(value) || 0);
+
+    saveData();
+
+    updateSummary();
+}
+
+
+/* =========================
+   VI PHẠM
+========================= */
+
+function changeViolation(pairId, value) {
+
+    const pair = getPair(pairId);
+
+    pair.violations = value;
+
+    saveData();
+}
+
+
+/* =========================
+   NHIỆM VỤ
+========================= */
+
+function addTask(pairId) {
+
+    const pair = getPair(pairId);
+
+    pair.tasks.push({
+
+        date:
+            new Date()
+                .toLocaleDateString("vi-VN"),
+
+        content: "",
+
+        done: false
+    });
+
+    saveData();
+
+    render();
+}
+
+
+function updateTask(
+    pairId,
+    taskIndex,
+    value
+) {
+
+    const pair = getPair(pairId);
+
+    pair.tasks[taskIndex].content =
+        value;
+
+    saveData();
+}
+
+
+function toggleTask(
+    pairId,
+    taskIndex
+) {
+
+    const pair = getPair(pairId);
+
+    pair.tasks[taskIndex].done =
+        !pair.tasks[taskIndex].done;
+
+    saveData();
+
+    render();
+}
+
+
+function deleteTask(
+    pairId,
+    taskIndex
+) {
+
+    const pair = getPair(pairId);
+
+    pair.tasks.splice(
+        taskIndex,
+        1
+    );
+
+    saveData();
+
+    render();
+}
+
+
+/* =========================
+   XÓA CẶP
+========================= */
+
+function deletePair(pairId) {
+
+    if (
+        !confirm(
+            "Bạn có chắc muốn xóa cặp này?"
+        )
+    ) return;
+
+    data.pairs =
+        data.pairs.filter(
+            p => p.id !== pairId
+        );
+
+    saveData();
+
+    render();
+}
+
+
+/* =========================
+   HIỂN THỊ
+========================= */
+
+function render() {
+
+    const container =
+        document.getElementById("pairs");
+
+    container.innerHTML = "";
+
+    if (data.pairs.length === 0) {
+
+        container.innerHTML = `
+            <div class="empty">
+                Chưa có cặp nào.
+                Hãy bấm <b>"Tạo cặp mới"</b>
+                để bắt đầu.
+            </div>
+        `;
+
+        updateSummary();
+
+        return;
+    }
+
+
+    data.pairs.forEach(pair => {
+
+        const student1 =
+            students.find(
+                s => s.id === pair.students[0]
+            );
+
+        const student2 =
+            students.find(
+                s => s.id === pair.students[1]
+            );
+
+        const score1 =
+            pair.scores[pair.students[0]] || 0;
+
+        const score2 =
+            pair.scores[pair.students[1]] || 0;
+
+        const total =
+            score1 + score2;
+
+
+        const tasks =
+            pair.tasks.map(
+                (task, index) => `
+
+                <div class="task">
+
+                    <input
+                        value="${escapeHtml(task.content)}"
+                        placeholder="Nội dung nhiệm vụ..."
+                        onchange="
+                            updateTask(
+                                ${pair.id},
+                                ${index},
+                                this.value
+                            )
+                        "
+                    >
+
+                    <button
+                        class="${task.done ? "btn-green" : "btn-gray"}"
+                        onclick="
+                            toggleTask(
+                                ${pair.id},
+                                ${index}
+                            )
+                        "
+                    >
+                        ${task.done ? "✓" : "○"}
+                    </button>
+
+                    <button
+                        class="btn-red"
+                        onclick="
+                            deleteTask(
+                                ${pair.id},
+                                ${index}
+                            )
+                        "
+                    >
+                        ×
+                    </button>
+
+                </div>
+            `
+            ).join("");
+
+
+        const card =
+            document.createElement("div");
+
+        card.className = "pair";
+
+        card.style.setProperty(
+            "--pair-color",
+            pair.color
+        );
+
+
+        card.innerHTML = `
+
+            <div class="pair-header">
+
+                <h2>
+                    ${escapeHtml(pair.name)}
+                </h2>
+
+                <button
+                    class="btn-gray"
+                    onclick="
+                        renamePair(${pair.id})
+                    "
+                >
+                    ✏️ Đổi tên nhóm
+                </button>
+
+            </div>
+
+
+            <div class="pair-body">
+
+                <div class="students">
+
+                    <div class="student">
+
+                        <div class="student-name">
+                            ${student1.name}
+                        </div>
+
+                        <div class="student-score">
+                            ${formatScore(score1)}
+                        </div>
+
+                    </div>
+
+
+                    <div class="student">
+
+                        <div class="student-name">
+                            ${student2.name}
+                        </div>
+
+                        <div class="student-score">
+                            ${formatScore(score2)}
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="total">
+
+                    Tổng điểm nhóm:
+
+                    <strong>
+                        ${formatScore(total)}
+                    </strong>
+
+                </div>
+
+
+                <div class="controls">
+
+                    <div class="controls-title">
+                        ➕ Cộng điểm
+                    </div>
+
+                    <div class="score-buttons">
+
+                        <button
+                            class="plus"
+                            onclick="
+                                addScore(
+                                    ${pair.id},
+                                    5
+                                )
+                            "
+                        >
+                            +5
+                        </button>
+
+                        <button
+                            class="plus"
+                            onclick="
+                                addScore(
+                                    ${pair.id},
+                                    10
+                                )
+                            "
+                        >
+                            +10
+                        </button>
+
+                        <button
+                            class="plus"
+                            onclick="
+                                addScore(
+                                    ${pair.id},
+                                    15
+                                )
+                            "
+                        >
+                            +15
+                        </button>
+
+                        <button
+                            class="plus"
+                            onclick="
+                                addScore(
+                                    ${pair.id},
+                                    20
+                                )
+                            "
+                        >
+                            +20
+                        </button>
+
+                    </div>
+
+
+                    <div
+                        class="controls-title"
+                        style="margin-top:12px"
+                    >
+                        ➖ Trừ điểm
+                    </div>
+
+                    <div class="score-buttons">
+
+                        <button
+                            class="minus"
+                            onclick="
+                                subtractScore(
+                                    ${pair.id},
+                                    5
+                                )
+                            "
+                        >
+                            -5
+                        </button>
+
+                        <button
+                            class="minus"
+                            onclick="
+                                subtractScore(
+                                    ${pair.id},
+                                    10
+                                )
+                            "
+                        >
+                            -10
+                        </button>
+
+                        <button
+                            class="minus"
+                            onclick="
+                                subtractScore(
+                                    ${pair.id},
+                                    15
+                                )
+                            "
+                        >
+                            -15
+                        </button>
+
+                        <button
+                            class="minus"
+                            onclick="
+                                subtractScore(
+                                    ${pair.id},
+                                    20
+                                )
+                            "
+                        >
+                            -20
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <div class="field">
+
+                    <label>
+                        🏆 Hạnh kiểm nhóm
+                    </label>
+
+                    <select
+                        onchange="
+                            changeConduct(
+                                ${pair.id},
+                                this.value
+                            )
+                        "
+                    >
+
+                        <option
+                            ${pair.conduct === "Tốt" ? "selected" : ""}
+                        >
+                            Tốt
+                        </option>
+
+                        <option
+                            ${pair.conduct === "Khá" ? "selected" : ""}
+                        >
+                            Khá
+                        </option>
+
+                        <option
+                            ${pair.conduct === "Đạt" ? "selected" : ""}
+                        >
+                            Đạt
+                        </option>
+
+                        <option
+                            ${pair.conduct === "Chưa đạt" ? "selected" : ""}
+                        >
+                            Chưa đạt
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="field">
+
+                    <label>
+                        📅 Số ngày nghỉ
+                    </label>
+
+                    <input
+                        type="number"
+                        min="0"
+                        value="${pair.absent}"
+                        onchange="
+                            changeAbsent(
+                                ${pair.id},
+                                this.value
+                            )
+                        "
+                    >
+
+                </div>
+
+
+                <div class="field">
+
+                    <label>
+                        ⚠️ Vi phạm
+                    </label>
+
+                    <textarea
+                        placeholder="Ghi các vi phạm của nhóm..."
+                        onchange="
+                            changeViolation(
+                                ${pair.id},
+                                this.value
+                            )
+                        "
+                    >${escapeHtml(pair.violations)}</textarea>
+
+                </div>
+
+
+                <div class="field">
+
+                    <label>
+                        📋 Nhiệm vụ mỗi ngày
+                    </label>
+
+                    ${tasks}
+
+                    <button
+                        class="btn-blue"
+                        onclick="
+                            addTask(${pair.id})
+                        "
+                    >
+                        ➕ Thêm nhiệm vụ
+                    </button>
+
+                </div>
+
+
+                <div
+                    style="
+                        margin-top:15px;
+                        text-align:right;
+                    "
+                >
+
+                    <button
+                        class="btn-red"
+                        onclick="
+                            deletePair(${pair.id})
+                        "
+                    >
+                        🗑️ Xóa nhóm
+                    </button>
+
+                </div>
+
+            </div>
+        `;
+
+        container.appendChild(card);
+    });
+
+
+    updateSummary();
+}
+
+
+/* =========================
+   TỔNG QUAN
+========================= */
+
+function updateSummary() {
+
+    document.getElementById("pairCount")
+        .textContent =
+            data.pairs.length;
+
+
+    let totalScore = 0;
+    let absent = 0;
+
+    data.pairs.forEach(pair => {
+
+        pair.students.forEach(id => {
+
+            totalScore +=
+                pair.scores[id] || 0;
+
+        });
+
+        absent +=
+            Number(pair.absent) || 0;
+    });
+
+
+    document.getElementById("classScore")
+        .textContent =
+            formatScore(totalScore);
+
+
+    document.getElementById("absentTotal")
+        .textContent =
+            absent;
+}
+
+
+/* =========================
+   ĐỊNH DẠNG ĐIỂM
+========================= */
+
+function formatScore(value) {
+
+    if (
+        Number.isInteger(value)
+    ) {
+        return value;
+    }
+
+    return Number(value.toFixed(2));
+}
+
+
+/* =========================
+   SAO LƯU
+========================= */
+
+function backupData() {
+
+    const json =
+        JSON.stringify(
+            data,
+            null,
+            2
+        );
+
+    const blob =
+        new Blob(
+            [json],
+            {
+                type: "application/json"
+            }
+        );
+
+    const url =
+        URL.createObjectURL(blob);
+
+    const a =
+        document.createElement("a");
+
+    a.href = url;
+
+    a.download =
+        "cap-doi-cung-tien-backup.json";
+
+    a.click();
+
+    URL.revokeObjectURL(url);
+}
+
+
+/* =========================
+   KHÔI PHỤC
+========================= */
+
+function restoreData(event) {
+
+    const file =
+        event.target.files[0];
+
+    if (!file) return;
+
+    const reader =
+        new FileReader();
+
+    reader.onload = function(e) {
+
+        try {
+
+            const restored =
+                JSON.parse(e.target.result);
+
+            if (
+                !restored.pairs
+            ) {
+                throw new Error();
+            }
+
+            data = restored;
+
+            saveData();
+
+            render();
+
+            alert(
+                "Khôi phục dữ liệu thành công!"
+            );
+
+        } catch {
+
+            alert(
+                "File sao lưu không hợp lệ!"
+            );
+        }
+    };
+
+    reader.readAsText(file);
+
+    event.target.value = "";
+}
+
+
+/* =========================
+   XÓA TOÀN BỘ
+========================= */
+
+function resetAll() {
+
+    if (
+        !confirm(
+            "CẢNH BÁO!\n\nBạn có chắc muốn xóa toàn bộ các cặp và dữ liệu?"
+        )
+    ) return;
+
+    data = {
+        pairs: []
+    };
+
+    saveData();
+
+    render();
+}
+
+
+/* =========================
+   CHỐNG HTML
+========================= */
+
+function escapeHtml(text) {
+
+    return String(text ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+
+/* =========================
+   KHỞI ĐỘNG
+========================= */
+
+render();
+
+</script>
+
+</body>
+</html>
